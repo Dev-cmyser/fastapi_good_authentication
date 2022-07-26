@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>OFFICE</title>
+</head>
+<body>
+<form method="post" action="/login">
+    <input type="text" name="username" />
+    <input type="password" name="password" />
+    <input autocomplete="current-password" class="aa" type="submit" value="LOGIN" style="
+    display: block;
+    width: 200px;
+    height: 200px;
+    background-color: aqua;
+"/>
+</form>
+    <script  type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function(){
+            let btn = document.querySelector('input[type=submit]');
+            btn.style.backgroungColor = "yellow";
+            console.log(btn)
+            btn.addEventListener('click', async function(e){
+                e.preventDefault()
+                let username = document.querySelector('input[name=username]').value
+                let password = document.querySelector('input[name=password]').value
+                console.log(username, password)
+                let response = await fetch("/login", {
+                    method: "POST",
+                    body: new FormData(document.querySelector('form'))
+                })
+                let response_json = await response.json()
+                console.log(response, response_json)
+                if (response_json.success){
+                    let body = document.querySelector('body')
+                    body.style.backgroundColor = 'red'
+                    body.style.display = 'block'
+                    body.innerHTML = response_json.message
+                }
+
+            })
+            
+        })
+        
+    </script>
+    <script src="js/jsserver.js"></script>
+</body>
+
+</html>
